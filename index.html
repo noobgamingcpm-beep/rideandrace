@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RR MEMBERSHIP FORM</title>
+  <style>
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background: radial-gradient(circle at center, #001529 0%, #000000 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Logo Styling */
+    .club-logo {
+      width: 80px; /* Adjust size as needed */
+      height: auto;
+      display: block;
+      margin: 0 auto 15px auto;
+      filter: drop-shadow(0 0 8px rgba(0, 162, 255, 0.5));
+    }
+
+    /* Glass Container */
+    form {
+      background: rgba(255, 255, 255, 0.04); 
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      padding: 30px 40px;
+      width: 100%;
+      max-width: 550px;
+      border-radius: 28px;
+      border: 1px solid rgba(0, 162, 255, 0.3);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 162, 255, 0.15); 
+      position: relative;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00a2ff;
+      text-shadow: 0 0 10px rgba(0, 162, 255, 0.4);
+      margin: 0;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      text-align: center;
+      color: #00ffcc;
+      font-size: 0.8rem;
+      margin-top: 5px;
+      margin-bottom: 25px;
+      letter-spacing: 2px;
+      opacity: 0.7;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      font-weight: 600;
+      color: #70cfff;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Input Fields */
+    input[type="text"],
+    textarea,
+    input[type="file"],
+    .dropdown .selected {
+      width: 100%;
+      padding: 12px 15px;
+      margin-top: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(0, 162, 255, 0.4);
+      border-radius: 12px;
+      font-size: 15px;
+      color: white;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #00a2ff;
+      box-shadow: 0 0 12px rgba(0, 162, 255, 0.3);
+      background: rgba(0, 162, 255, 0.05);
+    }
+
+    /* Blue Glow Button */
+    button[type="submit"] {
+      width: 100%;
+      margin-top: 30px;
+      padding: 14px;
+      background: rgba(0, 100, 255, 0.15);
+      color: white;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border: 1px solid #00a2ff;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 162, 255, 0.2);
+      transition: 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background: rgba(0, 100, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0, 162, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Dropdown UI */
+    .dropdown { position: relative; }
+    .dropdown .options {
+      position: absolute;
+      top: 105%;
+      left: 0;
+      right: 0;
+      background: rgba(10, 25, 45, 0.98);
+      backdrop-filter: blur(10px);
+      border: 1px solid #00a2ff;
+      border-radius: 12px;
+      overflow-y: auto;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    .dropdown.open .options {
+      max-height: 200px;
+      opacity: 1;
+      padding: 5px 0;
+    }
+    .dropdown .option {
+      padding: 12px 15px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    .dropdown .option:hover { background: rgba(0, 162, 255, 0.2); }
+
+    /* Alert / Toast */
+    #customAlert {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center;
+    }
+    .alertBox {
+      background: rgba(0, 25, 50, 0.95); backdrop-filter: blur(15px);
+      border: 1px solid #00a2ff; border-radius: 20px; padding: 40px;
+      text-align: center; box-shadow: 0 0 30px rgba(0, 162, 255, 0.3);
+    }
+    #toast {
+      display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      background: #00a2ff; color: white; padding: 12px 30px;
+      border-radius: 50px; font-weight: bold; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    #output {
+      margin-top: 25px; width: 100%; max-width: 550px; padding: 15px;
+      background: rgba(0,0,0,0.4); border: 1px dashed rgba(0,162,255,0.4);
+      border-radius: 12px; color: #b0e0ff; font-size: 13px; white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="clubForm">
+    <img src="/logo.png" alt="Club Logo" class="club-logo">
+    
+  <h2>RIDE AND RACE CLUB</h2>
+  <h2>MEMBERSHIP FORM</h2>
+  <h3>BY NOOBGAMING</h3>
+
+    <label for="fullname">Full Name</label>
+    <input type="text" id="fullname" placeholder="Enter your name" required />
+
+    <label>Age Bracket</label>
+    <div class="dropdown" data-name="age">
+      <div class="selected">Select Age <span style="float:right">▼</span></div>
+      <div class="options">
+        <div class="option">Under 13</div>
+        <div class="option">13–16</div>
+        <div class="option">16–24</div>
+        <div class="option">25–34</div>
+        <div class="option">35+</div>
+      </div>
+    </div>
+
+    <label>Gender</label>
+    <div class="dropdown" data-name="gender">
+      <div class="selected">Select Gender <span style="float:right">▼</span></div>
+      <div class="options">
+        <div class="option">Male</div>
+        <div class="option">Female</div>
+      </div>
+    </div>
+
+    <label for="clubName">Previous Club</label>
+    <input type="text" id="clubName" placeholder="N/A if none" required>
+
+    <label>Game Experience</label>
+    <div class="dropdown" data-name="cpmExperience">
+      <div class="selected">Select Experience <span style="float:right">▼</span></div>
+      <div class="options">
+        <div class="option">New Player</div>
+        <div class="option">1–6 months</div>
+        <div class="option">1 Year+</div>
+        <div class="option">Veteran</div>
+      </div>
+    </div>
+
+    <label for="gameId">Game ID</label>
+    <input type="text" id="gameId" placeholder="Character ID" required>
+
+    <label for="inGameName">IGN</label>
+    <input type="text" id="inGameName" placeholder="Your display name" required>
+
+    <label>Preferred Role</label>
+    <div class="dropdown" data-name="clubRole">
+      <div class="selected">Select Role <span style="float:right">▼</span></div>
+      <div class="options">
+        <div class="option">Event Organizer</div>
+        <div class="option">Builder</div>
+        <div class="option">Recruiter</div>
+        <div class="option">Editor</div>
+        <div class="option">Tuner</div>
+      </div>
+    </div>
+
+    <label for="whyJoin">Why join us?</label>
+    <textarea id="whyJoin" rows="2" placeholder="Tell us your motivation..." required></textarea>
+
+    <label for="image">Upload ID Screenshot</label>
+    <input type="file" id="image" accept="image/*" required />
+
+    <button type="submit">SUBMIT APPLICATION</button>
+  </form>
+
+  <div id="output"></div>
+
+  <div id="customAlert">
+    <div class="alertBox">
+      <h2 style="color: #00ffcc; margin-bottom:20px;">Success!</h2>
+      <p>Your application has been sent.</p>
+      <button onclick="closeCustomAlert()" style="background:#00a2ff; border:none; color:white; padding:10px 30px; border-radius:8px; cursor:pointer; font-weight:bold;">OK</button>
+    </div>
+  </div>
+  <div id="toast">Sending...</div>
+
+  <script>
+    const botToken = "8563730312:AAHaCyH6vT8dF28MS3_lE89ELixoAPXy1r0";
+    const chatIds = ["6036231567"];
+
+    // Improved Dropdown Logic
+    document.querySelectorAll(".dropdown").forEach(drop => {
+      const selected = drop.querySelector(".selected");
+      const options = drop.querySelector(".options");
+      
+      selected.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = drop.classList.contains("open");
+        document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("open"));
+        if (!isOpen) drop.classList.add("open");
+      });
+
+      options.querySelectorAll(".option").forEach(opt => {
+        opt.addEventListener("click", () => {
+          selected.innerHTML = opt.textContent + ' <span style="float:right">▼</span>';
+          drop.setAttribute("data-value", opt.textContent);
+          drop.classList.remove("open");
+        });
+      });
+    });
+
+    // Close dropdowns when clicking outside
+    window.addEventListener("click", () => {
+      document.querySelectorAll(".dropdown").forEach(d => d.classList.remove("open"));
+    });
+
+    function showCustomAlert() { document.getElementById("customAlert").style.display = "flex"; }
+    function closeCustomAlert() { document.getElementById("customAlert").style.display = "none"; }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.style.display = "block";
+      setTimeout(() => toast.style.display = "none", 3000);
+    }
+
+    document.getElementById("clubForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      showToast("Uploading to Telegram...");
+
+      const getVal = name => document.querySelector(`.dropdown[data-name="${name}"]`)?.getAttribute("data-value") || "Not Specified";
+      
+      const data = {
+        name: document.getElementById("fullname").value,
+        age: getVal("age"),
+        gender: getVal("gender"),
+        club: document.getElementById("clubName").value,
+        xp: getVal("cpmExperience"),
+        gameId: document.getElementById("gameId").value,
+        ign: document.getElementById("inGameName").value,
+        role: getVal("clubRole"),
+        reason: document.getElementById("whyJoin").value,
+        file: document.getElementById("image").files[0]
+      };
+
+      const msg = `🔵 **NEW RR APPLICATION** 🔵\n\n👤 Name: ${data.name}\n🎂 Age: ${data.age}\n⚧ Gender: ${data.gender}\n🏁 Prev Club: ${data.club}\n🎮 Exp: ${data.xp}\n🆔 Game ID: ${data.gameId}\n🎭 IGN: ${data.ign}\n🛠 Role: ${data.role}\n📝 Reason: ${data.reason}`;
+
+      document.getElementById("output").textContent = msg;
+
+      try {
+        for (let id of chatIds) {
+          if (data.file) {
+            const fd = new FormData();
+            fd.append("chat_id", id);
+            fd.append("photo", data.file);
+            fd.append("caption", msg);
+            await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: fd });
+          } else {
+            await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ chat_id: id, text: msg })
+            });
+          }
+        }
+        showCustomAlert();
+        document.getElementById("clubForm").reset();
+        document.querySelectorAll(".selected").forEach(s => s.innerHTML = 'Select Option <span style="float:right">▼</span>');
+      } catch (err) {
+        showToast("Error sending application.");
+      }
+    });
+  </script>
+</body>
+</html>
